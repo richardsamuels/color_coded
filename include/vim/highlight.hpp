@@ -4,14 +4,6 @@
 #include <vector>
 #include <iostream>
 
-#include <clang-c/Index.h>
-
-#include "clang/string.hpp"
-#include "clang/token_pack.hpp"
-#include "clang/translation_unit.hpp"
-#include "clang/token.hpp"
-#include "clang/location.hpp"
-
 #include "vim/commands.hpp"
 
 namespace color_coded
@@ -43,40 +35,11 @@ namespace color_coded
         using size_type = std::size_t;
 
         highlight_group() = default;
-        highlight_group(clang::translation_unit const &trans_unit,
-                        clang::token_pack &&tokens)
-        {
-          auto &tu(trans_unit.impl);
-          std::vector<CXCursor> cursors(tokens.size());
-          clang_annotateTokens(tu, tokens.begin(), tokens.size(), cursors.data());
+        // TODO:GOLANG highlight group for golang
+        //highlight_group() {
+        //      emplace_back(mapped, line, column, spell.c_str());
 
-          auto cursor(cursors.cbegin());
-          for(auto token(tokens.cbegin()); token != tokens.cend();
-              ++token, ++cursor)
-          {
-            CXTokenKind const kind{ clang_getTokenKind(*token) };
-            clang::string const spell{ clang_getTokenSpelling(tu, *token) };
-            auto const loc(clang_getTokenLocation(tu, *token));
-
-            CXFile file{};
-            unsigned line{}, column{}, offset{};
-            clang_getFileLocation(loc, &file, &line, &column, &offset);
-
-            auto const cur(*cursor);
-            auto const cursor_kind(cur.kind);
-            auto const cursor_type(clang_getCursorType(cur).kind);
-
-            auto const mapped(clang::token::map_token_kind(kind, cursor_kind,
-                                                           cursor_type));
-            if(mapped.size())
-            {
-              //std::cout << spell.c_str() << " : " << mapped << std::endl;
-              emplace_back(mapped, line, column, spell.c_str());
-            }
-            else
-            { /* std::cout << "unmapped: " << spell.c_str() << std::endl; */ }
-          }
-        }
+        //}
 
         template <typename... Args>
         void emplace_back(Args &&...args)

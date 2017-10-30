@@ -51,7 +51,6 @@ namespace color_coded
     inline void destroy(std::string const &file)
     {
       core::buffers().erase(file);
-      core::configs().erase(file);
     }
 
     inline void exit()
