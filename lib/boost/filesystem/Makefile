@@ -1,4 +1,4 @@
-TARGET = ${OUT_DIR}libcolor_coded_boost_filesystem.a
+TARGET = ${OUT_DIR}libcolor_goded_boost_filesystem.a
 
 OBJS := $(patsubst %.cpp,%.cpp.o,$(wildcard src/*.cpp))
 OBJS := $(filter-out ${EXCLUDE},${OBJS})

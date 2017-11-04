@@ -28,7 +28,7 @@ namespace color_coded
     inline std::string temp_dir()
     {
       static auto const temp_dir(fs::temp_directory_path());
-      static auto const user_dir("color_coded-" + std::to_string(geteuid()) + "/");
+      static auto const user_dir("color_goded-" + std::to_string(geteuid()) + "/");
       static auto const dir(temp_dir / user_dir);
       static auto const make_dir(fs::create_directory(dir));
       static_cast<void>(make_dir);

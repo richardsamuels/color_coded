@@ -7,5 +7,5 @@ execute_process(
 )
 
 if(RESULT EQUAL 0)
-  message(FATAL_ERROR "luajit doesn't support being embedded; to use color_coded, you must install vim without luajit")
+  message(FATAL_ERROR "luajit doesn't support being embedded; to use color_goded, you must install vim without luajit")
 endif()

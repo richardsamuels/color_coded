@@ -24,9 +24,9 @@ set -o errexit
 
 # Patch the VimL and C++ with the new API version (the commit hash)
 commit=$(git rev-parse --short HEAD)
-vim_pattern="s/\\(let s:color_coded_api_version = \\).*/\\10x$commit/"
+vim_pattern="s/\\(let s:color_goded_api_version = \\).*/\\10x$commit/"
 cpp_pattern="s/\\(std::size_t constexpr const version\\).*/\\1\\{ 0x$commit \\};/"
-sed -i $sed_infix "$vim_pattern" ./autoload/color_coded.vim
+sed -i $sed_infix "$vim_pattern" ./autoload/color_goded.vim
 sed -i $sed_infix "$cpp_pattern" ./src/main.cpp
 
 log_end " new version (0x$commit)"

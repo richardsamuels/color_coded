@@ -12,7 +12,7 @@ namespace color_coded
       (
         "vim.command"
         "("
-          "\"call color_coded#clear_matches(color_coded#get_buffer_name())\""
+          "\"call color_goded#clear_matches(color_goded#get_buffer_name())\""
         ")"
       );
     }
@@ -22,7 +22,7 @@ namespace color_coded
     {
       lua::eval
       (
-        "vim.command(\"call color_coded#add_match("
+        "vim.command(\"call color_goded#add_match("
         "\'" + type + "\', "
         + std::to_string(line) + ", "
         + std::to_string(col) + ", "

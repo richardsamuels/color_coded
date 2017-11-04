@@ -66,37 +66,37 @@ namespace color_coded
 
   static int api_version(lua_State * const lua)
   {
-    std::size_t constexpr const version{ 0x783b1ff };
+    std::size_t constexpr const version{ 0x89084b5 };
     lua_pushinteger(lua, version);
     return 1;
   }
 }
 
-extern "C" int luaopen_color_coded(lua_State * const lua)
+extern "C" int luaopen_color_goded(lua_State * const lua)
 {
   color_coded::lua::state(lua);
-  lua_register(lua, "color_coded_pull",
+  lua_register(lua, "color_goded_pull",
     (color_coded::safe_func<decltype(&color_coded::pull),
                             &color_coded::pull>()));
-  lua_register(lua, "color_coded_push",
+  lua_register(lua, "color_goded_push",
     (color_coded::safe_func<decltype(&color_coded::push),
                             &color_coded::push>()));
-  lua_register(lua, "color_coded_moved",
+  lua_register(lua, "color_goded_moved",
     (color_coded::safe_func<decltype(&color_coded::moved),
                             &color_coded::moved>()));
-  lua_register(lua, "color_coded_enter",
+  lua_register(lua, "color_goded_enter",
     (color_coded::safe_func<decltype(&color_coded::enter),
                             &color_coded::enter>()));
-  lua_register(lua, "color_coded_destroy",
+  lua_register(lua, "color_goded_destroy",
     (color_coded::safe_func<decltype(&color_coded::destroy),
                             &color_coded::destroy>()));
-  lua_register(lua, "color_coded_exit",
+  lua_register(lua, "color_goded_exit",
     (color_coded::safe_func<decltype(&color_coded::exit),
                             &color_coded::exit>()));
-  lua_register(lua, "color_coded_last_error",
+  lua_register(lua, "color_goded_last_error",
     (color_coded::safe_func<decltype(&color_coded::last_error),
                             &color_coded::last_error>()));
-  lua_register(lua, "color_coded_api_version",
+  lua_register(lua, "color_goded_api_version",
     (color_coded::safe_func<decltype(&color_coded::api_version),
                             &color_coded::api_version>()));
   return 0;
