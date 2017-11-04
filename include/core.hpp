@@ -1,5 +1,6 @@
 #pragma once
 
+#include "golang.h"
 #include "vim/commands.hpp"
 #include "vim/buffer.hpp"
 
@@ -10,6 +11,10 @@
 #include <string>
 #include <map>
 #include <sstream>
+
+extern "C" {
+#include "color_goded_ast.h"
+}
 
 /* XXX: It's a shared object to a C lib; I need globals. :| */
 namespace color_coded
@@ -49,9 +54,21 @@ namespace color_coded
         {
           try
           {
-
             vim::highlight_group h;
-            // TODO:GOLANG Have Go compile and fetch tokens
+            std::string err;
+            struct Callback c;
+            c.data_ptr= static_cast<void*>(&h);
+            c.err_str = static_cast<void*>(&err);
+
+            // blame go for this
+            if(!GoGetTokens(const_cast<char*>(t.name.c_str()), c)) {
+                last_error("No tokens???");
+                return async::result{{}, {}};
+            }
+            if(!err.empty()) {
+                last_error(err);
+                return async::result{{}, {}};
+            }
 
             return async::result
             { t.name, std::move(h) };

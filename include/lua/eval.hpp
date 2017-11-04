@@ -13,7 +13,7 @@ namespace color_coded
 {
   namespace lua
   {
-    lua_State* state(lua_State * const lua = nullptr)
+    inline lua_State* state(lua_State * const lua = nullptr)
     {
       static lua_State *lua_{};
       if(lua)
@@ -21,7 +21,7 @@ namespace color_coded
       return lua_;
     }
 
-    void eval(std::string const &str)
+    inline void eval(std::string const &str)
     { luaL_dostring(state(), str.c_str()); }
   }
 }

@@ -4,14 +4,14 @@
 " Setup
 " ------------------------------------------------------------------------------
 
-let s:color_coded_api_version = 0xba89eb5
+let s:color_coded_api_version = 0x783b1ff
 let s:color_coded_valid = 1
 let s:color_coded_unique_counter = 1
-let g:color_coded_matches = {}
+let g:color_goded_matches = {}
 
 function! s:color_coded_create_defaults()
-  if !exists("g:color_coded_filetypes")
-    let g:color_coded_filetypes = ['c', 'cpp', 'objc']
+  if !exists("g:color_goded_filetypes")
+    let g:color_goded_filetypes = ['go']
   endif
 endfunction!
 
@@ -45,20 +45,13 @@ function! color_coded#setup()
     local loaded = pcall(require, "color_coded")
     if not loaded then
       vim.command('echohl WarningMsg | ' ..
-            'echomsg "color_coded unavailable: you need to compile it ' ..
+            'echomsg "color_goded unavailable: you need to compile it ' ..
             '(see README.md)" | ' ..
             'echohl None')
       vim.command("let s:color_coded_valid = 0")
       return
     else
       local version = color_coded_api_version()
-      if version ~= vim.eval("s:color_coded_api_version") then
-        vim.command('echohl WarningMsg | ' ..
-            'echomsg "color_coded has been updated: you need to recompile it ' ..
-            '(see README.md)" | ' ..
-            'echohl None')
-        vim.command("let s:color_coded_valid = 0")
-      end
     end
 EOF
 
@@ -73,7 +66,7 @@ endfunction!
 " ------------------------------------------------------------------------------
 
 function! color_coded#push()
-  if index(g:color_coded_filetypes, &ft) < 0 || g:color_coded_enabled == 0
+  if index(g:color_goded_filetypes, &ft) < 0 || g:color_goded_enabled == 0
     return
   endif
 lua << EOF
@@ -83,7 +76,7 @@ EOF
 endfunction!
 
 function! color_coded#pull()
-  if index(g:color_coded_filetypes, &ft) < 0 || g:color_coded_enabled == 0
+  if index(g:color_goded_filetypes, &ft) < 0 || g:color_goded_enabled == 0
     return
   endif
 lua << EOF
@@ -93,7 +86,7 @@ EOF
 endfunction!
 
 function! color_coded#moved()
-  if index(g:color_coded_filetypes, &ft) < 0 || g:color_coded_enabled == 0
+  if index(g:color_goded_filetypes, &ft) < 0 || g:color_goded_enabled == 0
     return
   endif
 lua << EOF
@@ -103,7 +96,7 @@ EOF
 endfunction!
 
 function! color_coded#enter()
-  if index(g:color_coded_filetypes, &ft) < 0 || g:color_coded_enabled == 0
+  if index(g:color_goded_filetypes, &ft) < 0 || g:color_goded_enabled == 0
     return
   endif
 
@@ -140,7 +133,7 @@ EOF
 endfunction!
 
 function! color_coded#destroy()
-  if index(g:color_coded_filetypes, &ft) < 0 || g:color_coded_enabled == 0
+  if index(g:color_goded_filetypes, &ft) < 0 || g:color_goded_enabled == 0
     return
   endif
 lua << EOF
@@ -151,7 +144,7 @@ EOF
 endfunction!
 
 function! color_coded#exit()
-  if g:color_coded_enabled == 0
+  if g:color_goded_enabled == 0
     return
   endif
 lua << EOF
@@ -171,8 +164,8 @@ EOF
 endfunction!
 
 function! color_coded#toggle()
-  let g:color_coded_enabled = g:color_coded_enabled ? 0 : 1
-  if g:color_coded_enabled == 0
+  let g:color_goded_enabled = g:color_goded_enabled ? 0 : 1
+  if g:color_goded_enabled == 0
     call color_coded#clear_all_matches()
     echo "color_coded: disabled"
   else
@@ -205,7 +198,7 @@ endfunction!
 
 function! color_coded#add_match(type, line, col, len)
   let s:file = color_coded#get_buffer_name()
-  call add(g:color_coded_matches[s:file],
+  call add(g:color_goded_matches[s:file],
           \matchaddpos(a:type, [[ a:line, a:col, a:len ]], -1))
   unlet s:file
 endfunction!
@@ -213,19 +206,19 @@ endfunction!
 " Clears color_coded matches only in the current buffer
 function! color_coded#clear_matches(file)
   try
-    if has_key(g:color_coded_matches, a:file) == 1
-      for id in g:color_coded_matches[a:file]
+    if has_key(g:color_goded_matches, a:file) == 1
+      for id in g:color_goded_matches[a:file]
         call matchdelete(id)
       endfor
     endif
   catch
     echomsg "color_coded caught: " . v:exception
   finally
-    let g:color_coded_matches[a:file] = []
+    let g:color_goded_matches[a:file] = []
   endtry
 endfunction!
 
 " Clears color_coded matches in all open buffers
 function! color_coded#clear_all_matches()
-  let g:color_coded_matches = {}
+  let g:color_goded_matches = {}
 endfunction!

@@ -47,6 +47,11 @@ find_package(ZLIB REQUIRED)
 # PThread
 find_package(Threads REQUIRED)
 
+# Build the golang portion
+execute_process(COMMAND CGO_CFLAGS="-I${CMAKE_CURRENT_LIST_FILE}/include" go install -buildmode=c-archive "github.com/richardsamuels/color_goded_ast" )
+
+set(CG_GOPKG "$ENV{GOPATH}/pkg/darwin_amd64/github.com/richardsamuels")
+
 include_directories(
   include
   ${LLVM_INCLUDE_DIRS}
@@ -55,15 +60,17 @@ include_directories(
   ${ZLIB_INCLUDE_PATH}
 
   $ENV{PWD}/include/
+  ${CG_GOPKG}
 )
 
 # Allow easier dynamic linking with clang
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-set(CMAKE_INSTALL_RPATH ${LLVM_LIB_PATH})
+#set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+#set(CMAKE_INSTALL_RPATH ${LLVM_LIB_PATH})
+
 
 include(cmake/generate_sources.cmake)
 include(cmake/check_luajit.cmake)
-add_library(${PROJECT_NAME} SHARED src/main.cpp)
+add_library(${PROJECT_NAME} SHARED src/main.cpp src/golang.cpp)
 
 add_custom_target(${PROJECT_NAME}_track_api
   COMMAND ${CMAKE_CURRENT_LIST_DIR}/lib/track_api
@@ -75,6 +82,7 @@ add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_track_api)
 set_property(TARGET ${PROJECT_NAME} PROPERTY PREFIX "")
 set_property(TARGET ${PROJECT_NAME} PROPERTY OUTPUT_NAME "${PROJECT_NAME}.so")
 set_property(TARGET ${PROJECT_NAME} PROPERTY SUFFIX "")
+
 
 # Enable warnings
 set(WARNING_FLAGS
@@ -91,6 +99,8 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
   ${PROJECT_NAME}_boost
+  ${COLOR_GODED}
+  ${CG_GOPKG}/color_goded_ast.a
   ${LUA_LIBRARIES}
   ${CURSES_LIBRARY}
   ${ZLIB_LIBRARIES}

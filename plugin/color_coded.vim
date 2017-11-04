@@ -25,9 +25,9 @@ if exists("g:loaded_color_coded") || &cp
   finish
 endif
 
-if !exists("g:color_coded_enabled")
-  let g:color_coded_enabled = 1
-elseif g:color_coded_enabled == 0
+if !exists("g:color_goded_enabled")
+  let g:color_goded_enabled = 1
+elseif g:color_goded_enabled == 0
   finish
 endif
 " ------------------------------------------------------------------------------
