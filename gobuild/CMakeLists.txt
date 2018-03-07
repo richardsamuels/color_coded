@@ -1,5 +1,5 @@
 add_custom_target(color_goded_ast.a
-    COMMAND CGO_CFLAGS=-I${CG_CPP_INC} go build -buildmode=c-archive "github.com/richardsamuels/color_goded_ast"
+    COMMAND ${CMAKE_COMMAND} -E env "CGO_LDFLAGS_ALLOW='-Wl.*'" "CGO_CFLAGS=-I${CG_CPP_INC}" go build -buildmode=c-archive "github.com/richardsamuels/color_goded_ast"
     COMMENT "Running go build"
 )
 
